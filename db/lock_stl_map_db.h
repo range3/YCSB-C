@@ -5,14 +5,14 @@
 
 #include <string>
 #include <vector>
-#include "lib/lock_stl_hashtable.h"
+#include "lib/lock_stl_map.h"
 
 namespace ycsbc {
 
 class LockStlMapDB : public HashtableDB {
  public:
   LockStlMapDB() : HashtableDB(
-      new vmp::LockStlHashtable<HashtableDB::FieldHashtable *>) { }
+      new vmp::LockStlMap<HashtableDB::FieldHashtable *>) { }
 
   ~LockStlMapDB() {
     std::vector<KeyHashtable::KVPair> key_pairs = key_table_->Entries();
@@ -24,7 +24,7 @@ class LockStlMapDB : public HashtableDB {
 
  protected:
   HashtableDB::FieldHashtable *NewFieldHashtable() {
-    return new vmp::LockStlHashtable<const char *>;
+    return new vmp::LockStlMap<const char *>;
   }
 
   void DeleteFieldHashtable(HashtableDB::FieldHashtable *table) {

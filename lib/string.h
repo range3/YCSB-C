@@ -34,6 +34,7 @@ class String {
   static void Free(const String& str);
 
   bool operator==(const String &other) const;
+  bool operator<(const String &rhs) const;
 
  private:
   uint64_t SDBMHash(const char *str);
@@ -86,7 +87,10 @@ inline bool String::operator==(const String &other) const {
   return strcmp(value_, other.value()) == 0;
 }
 
+inline bool String::operator<(const String& rhs) const {
+  return strcmp(value_, rhs.value()) < 0;
+}
+
 } // vmp
 
 #endif // YCSB_C_LIB_HASH_STRING_H_
-
