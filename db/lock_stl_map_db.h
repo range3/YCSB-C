@@ -1,28 +1,20 @@
-//
-//  lock_stl_db.h
-//  YCSB-C
-//
-//  Created by Jinglei Ren on 12/25/14.
-//  Copyright (c) 2014 Jinglei Ren <jinglei@ren.systems>.
-//
-
-#ifndef YCSB_C_LOCK_STL_DB_H_
-#define YCSB_C_LOCK_STL_DB_H_
+#ifndef YCSB_C_LOCK_STL_MAP_DB_H_
+#define YCSB_C_LOCK_STL_MAP_DB_H_
 
 #include "db/hashtable_db.h"
 
 #include <string>
 #include <vector>
-#include "lib/lock_stl_map.h"
+#include "lib/lock_stl_hashtable.h"
 
 namespace ycsbc {
 
-class LockStlDB : public HashtableDB {
+class LockStlMapDB : public HashtableDB {
  public:
-  LockStlDB() : HashtableDB(
-      new vmp::LockStlMap<HashtableDB::FieldHashtable *>) { }
+  LockStlMapDB() : HashtableDB(
+      new vmp::LockStlHashtable<HashtableDB::FieldHashtable *>) { }
 
-  ~LockStlDB() {
+  ~LockStlMapDB() {
     std::vector<KeyHashtable::KVPair> key_pairs = key_table_->Entries();
     for (auto &key_pair : key_pairs) {
       DeleteFieldHashtable(key_pair.second);
@@ -32,7 +24,7 @@ class LockStlDB : public HashtableDB {
 
  protected:
   HashtableDB::FieldHashtable *NewFieldHashtable() {
-    return new vmp::LockStlMap<const char *>;
+    return new vmp::LockStlHashtable<const char *>;
   }
 
   void DeleteFieldHashtable(HashtableDB::FieldHashtable *table) {
@@ -56,4 +48,4 @@ class LockStlDB : public HashtableDB {
 
 } // ycsbc
 
-#endif // YCSB_C_LOCK_STL_DB_H_
+#endif // YCSB_C_LOCK_STL_MAP_DB_H_
