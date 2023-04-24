@@ -1,5 +1,5 @@
-#ifndef YCSB_C_LOCK_STL_MAP_DB_H_
-#define YCSB_C_LOCK_STL_MAP_DB_H_
+#ifndef YCSB_C_RWLOCK_STL_MAP_DB_H_
+#define YCSB_C_RWLOCK_STL_MAP_DB_H_
 
 #include "db/hashtable_db.h"
 
@@ -9,12 +9,13 @@
 
 namespace ycsbc {
 
-class LockStlMapDB : public HashtableDB {
+// TODO: Implement this class.
+class RWLockStlMapDB : public HashtableDB {
  public:
-  LockStlMapDB()
+  RWLockStlMapDB()
       : HashtableDB(new vmp::LockStlMap<HashtableDB::FieldHashtable*>) {}
 
-  ~LockStlMapDB() {
+  ~RWLockStlMapDB() {
     std::vector<KeyHashtable::KVPair> key_pairs = key_table_->Entries();
     for (auto& key_pair : key_pairs) {
       DeleteFieldHashtable(key_pair.second);
@@ -46,4 +47,4 @@ class LockStlMapDB : public HashtableDB {
 
 }  // namespace ycsbc
 
-#endif  // YCSB_C_LOCK_STL_MAP_DB_H_
+#endif  // YCSB_C_RQLOCK_STL_MAP_DB_H_
